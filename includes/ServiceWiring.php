@@ -1,8 +1,12 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
+use MWStake\MediaWiki\Component\Utils\UtilityFactory;
+
 return [
 	'MWStakeCommonUtilsFactory' => function ( MediaWikiServices $services ) {
-		return '';
-	},
-
+		return new UtilityFactory(
+			$services
+		);
+	}
 ];
