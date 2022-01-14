@@ -10,4 +10,5 @@ if ( defined( 'MWSTAKE_MEDIAWIKI_COMPONENT_UTILS_VERSION' ) ) {
 
 define( 'MWSTAKE_MEDIAWIKI_COMPONENT_UTILS_VERSION', '1.0.0' );
 
+$GLOBALS['wgAdditionalGroups'] = [];
 $GLOBALS['wgServiceWiringFiles'][] = __DIR__ . '/includes/ServiceWiring.php';
