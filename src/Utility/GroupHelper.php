@@ -2,6 +2,8 @@
 namespace MWStake\MediaWiki\Component\Utils\Utility;
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\User\UserGroupManager;
+use Wikimedia\Rdbms\IDatabase;
 
 class GroupHelper {
 
@@ -19,12 +21,13 @@ class GroupHelper {
 	protected $aGroups = [];
 
 	/**
-	 * @param \MediaWiki\User\UserGroupManager $userGroupManager
+	 * @param UserGroupManager $userGroupManager
 	 * @param array $additionalGroups
 	 * @param array $groupTypes
-	 * @param \Wikimedia\Rdbms\IDatabase $dbr
+	 * @param IDatabase $dbr
 	 */
-	public function __construct( $userGroupManager, $additionalGroups, $groupTypes, $dbr ) {
+	public function __construct( UserGroupManager $userGroupManager,
+			$additionalGroups, $groupTypes, IDatabase $dbr ) {
 		$this->userGroupManager = $userGroupManager;
 		$this->additionalGroups = $additionalGroups;
 		$this->groupTypes = $groupTypes;
@@ -92,7 +95,7 @@ class GroupHelper {
 		}
 
 		// Bypass if $wgGroupTypes is not set or if there is no filter.
-		if ( !count( $this->groupTypes ) || !count( $groupsFilter ) ) {
+		if ( !$this->groupTypes || !count( $this->groupTypes ) || !count( $groupsFilter ) ) {
 			return $this->aGroups;
 		}
 

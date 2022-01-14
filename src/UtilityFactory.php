@@ -3,6 +3,7 @@
 namespace MWStake\MediaWiki\Component\Utils;
 
 use MediaWiki\MediaWikiServices;
+use MWStake\MediaWiki\Component\Utils\Utility\GroupHelper;
 
 /**
  * UtilityFactory class for MWStake components
@@ -23,7 +24,7 @@ class UtilityFactory {
 	}
 
 	/**
-	 * @return \MWStake\MediaWiki\Component\Utils\Utility\GroupHelper
+	 * @return GroupHelper
 	 */
 	public function getGroupHelper() {
 		$groupManager = $this->services->getUserGroupManager();
@@ -32,6 +33,6 @@ class UtilityFactory {
 		$groupTypes = $config->get( 'GroupTypes' );
 		$dbr = $this->services->getDBLoadBalancer()->getConnection( DB_REPLICA );
 
-		return new Utility\GroupHelper( $groupManager, $additionalGroups, $groupTypes, $dbr );
+		return new GroupHelper( $groupManager, $additionalGroups, $groupTypes, $dbr );
 	}
 }
