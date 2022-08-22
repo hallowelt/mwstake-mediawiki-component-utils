@@ -4,6 +4,7 @@ namespace MWStake\MediaWiki\Component\Utils\Utility;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\User\UserGroupManager;
 use Wikimedia\Rdbms\IDatabase;
+use User;
 
 class GroupHelper {
 
