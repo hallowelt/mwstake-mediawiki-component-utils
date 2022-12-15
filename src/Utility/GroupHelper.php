@@ -117,6 +117,21 @@ class GroupHelper {
 	}
 
 	/**
+	 * @param string $group
+	 *
+	 * @return int
+	 */
+	public function countUsersInGroup( $group ): int {
+		$res = $this->dbr->selectRow(
+			'user_groups',
+			'COUNT(*) AS count',
+			[ 'ug_group' => $group ],
+			__METHOD__
+		);
+		return (int)$res->count;
+	}
+
+	/**
 	 * Returns an array of User being in one or all groups given
 	 * @param mixed $aGroups
 	 * @return array Array of User objects
