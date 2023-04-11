@@ -7,7 +7,7 @@
 
 Add `"mwstake/mediawiki-component-utils": "~2.0"` to the `require` section of your `composer.json` file.
 
-Since 2.0 explicit initialization is required. This can be archived by
+Since 2.0 explicit initialization is required. This can be achived by
 - either adding `"callback": "mwsInitComponents"` to your `extension.json`/`skin.json`
 - or calling `mwsInitComponents();` within you extensions/skins custom `callback` method
 
