@@ -3,7 +3,6 @@ namespace MWStake\MediaWiki\Component\Utils\Utility;
 
 use MediaWiki\MediaWikiServices;
 use MediaWiki\User\UserGroupManager;
-use User;
 use Wikimedia\Rdbms\IDatabase;
 
 class GroupHelper {
@@ -139,7 +138,8 @@ class GroupHelper {
 	 * @return array Array of User objects
 	 */
 	public static function getUserInGroups( $aGroups ) {
-		$dbr = wfGetDB( DB_REPLICA );
+		$services = MediaWikiServices::getInstance();
+		$dbr = $services->getDBLoadBalancer()->getConnection( DB_REPLICA );
 		if ( !is_array( $aGroups ) ) {
 			$aGroups = [ $aGroups ];
 		}
@@ -154,8 +154,9 @@ class GroupHelper {
 		if ( !$res ) {
 			return $aUser;
 		}
+		$userFactory = $services->getUserFactory();
 		foreach ( $res as $row ) {
-			$aUser[] = User::newFromId( $row->ug_user );
+			$aUser[] = $userFactory->newFromId( $row->ug_user );
 		}
 		return $aUser;
 	}
