@@ -11,7 +11,7 @@ if ( defined( 'MWSTAKE_MEDIAWIKI_COMPONENT_UTILS_VERSION' ) ) {
 define( 'MWSTAKE_MEDIAWIKI_COMPONENT_UTILS_VERSION', '2.0.4' );
 
 MWStake\MediaWiki\ComponentLoader\Bootstrapper::getInstance()
-->register( 'utils', function () {
+->register( 'utils', static function () {
 	/*
 	 * Used by extensions like `BlueSpiceGroupManager` to flag custom groups
 	 * Do not fill this array elsewhere, otherwise those extensions will get

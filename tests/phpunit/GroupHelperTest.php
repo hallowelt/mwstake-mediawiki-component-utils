@@ -7,13 +7,17 @@ use PHPUnit\Framework\TestCase;
 
 class GroupHelperTest extends TestCase {
 
+	/** @var string[] */
 	public static $implicitGroups = [ '*', 'user', 'autoconfirmed' ];
-	/*
+	/**
 	 * As per includes/user/User.php::getAllGroups, implicit groups are not
 	 * included.
+	 * @var string[]
 	 */
 	public static $allGroups = [ 'sysop', 'bureaucrat', 'bot', 'editor', 'my-reviewer' ];
+	/** @var array */
 	public static $additionalGroups = [ 'my-reviewer' => [] ];
+	/** @var string[] */
 	public static $groupTypes = [
 		'*'                => 'implicit',
 		'user'             => 'implicit',

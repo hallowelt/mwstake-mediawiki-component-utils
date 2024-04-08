@@ -8,17 +8,19 @@ use Wikimedia\Rdbms\IDatabase;
 
 class GroupHelper {
 
+	/** @var UserGroupManager */
 	private $userGroupManager = null;
+	/** @var array */
 	private $additionalGroups = [];
+	/** @var array */
 	private $groupTypes = [];
+	/** @var IDatabase */
 	private $dbr = null;
+	/** @var string[] */
 	private $standardGroupsFilter = [ 'core-minimal', 'extension-minimal', 'custom' ];
-	/**
-	 *
-	 * @var MediaWikiServices
-	 */
+	/** @var MediaWikiServices */
 	protected $services;
-
+	/** @var array */
 	protected $aGroups = [];
 
 	/**
