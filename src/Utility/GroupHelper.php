@@ -2,6 +2,7 @@
 namespace MWStake\MediaWiki\Component\Utils\Utility;
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\User\UserFactory;
 use MediaWiki\User\UserGroupManager;
 use Wikimedia\Rdbms\IDatabase;
 
@@ -27,9 +28,10 @@ class GroupHelper {
 	 * @param array $additionalGroups
 	 * @param array $groupTypes
 	 * @param IDatabase $dbr
+	 * @param UserFactory $userFactory
 	 */
 	public function __construct( UserGroupManager $userGroupManager,
-			$additionalGroups, $groupTypes, IDatabase $dbr ) {
+			$additionalGroups, $groupTypes, IDatabase $dbr, private readonly UserFactory $userFactory ) {
 		$this->userGroupManager = $userGroupManager;
 		$this->additionalGroups = $additionalGroups;
 		$this->groupTypes = $groupTypes;
@@ -122,20 +124,41 @@ class GroupHelper {
 	 *
 	 * @return int
 	 */
-	public function countUsersInGroup( $group ): int {
-		$res = $this->dbr->selectRow(
-			'user_groups',
-			'COUNT(*) AS count',
-			[ 'ug_group' => $group ],
-			__METHOD__
-		);
-		return (int)$res->count;
+	public function countUsersInGroup( $group, bool $onlyActive = false, bool $excludeSystem = false ): int {
+		if ( !$onlyActive && !$excludeSystem ) {
+			return $this->dbr->newSelectQueryBuilder()
+				->select( [ 'ug_user' ] )
+				->from( 'user_groups' )
+				->where( [ 'ug_group' => $group ] )
+				->caller( __METHOD__ )
+				->fetchRowCount();
+		}
+		$res = $this->dbr->newSelectQueryBuilder()
+			->select( [ 'user_id', 'user_name' ] )
+			->from( 'user_groups' )
+			->where( [ 'ug_group' => $group ] )
+			->join( 'user', 'u', [ 'ug_user = user_id' ] )
+			->caller( __METHOD__ )
+			->fetchResultSet();
+
+		$validUser = 0;
+		foreach ( $res as $row ) {
+			$user = $this->userFactory->newFromRow( $row );
+			if ( $onlyActive && $user->getBlock() !== null ) {
+				continue;
+			}
+			if ( $excludeSystem && $user->isSystemUser() ) {
+				continue;
+			}
+			$validUser++;
+		}
+		return $validUser;
 	}
 
 	/**
 	 * Returns an array of User being in one or all groups given
 	 * @param mixed $aGroups
-	 * @return array Array of User objects
+	 * @return User[] Array of User objects
 	 */
 	public static function getUserInGroups( $aGroups ) {
 		$services = MediaWikiServices::getInstance();

@@ -33,6 +33,8 @@ class UtilityFactory {
 		$groupTypes = $config->get( 'GroupTypes' );
 		$dbr = $this->services->getDBLoadBalancer()->getConnection( DB_REPLICA );
 
-		return new GroupHelper( $groupManager, $additionalGroups, $groupTypes, $dbr );
+		return new GroupHelper(
+			$groupManager, $additionalGroups, $groupTypes, $dbr, $this->services->getUserFactory()
+		);
 	}
 }
