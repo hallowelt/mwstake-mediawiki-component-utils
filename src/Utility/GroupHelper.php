@@ -59,6 +59,21 @@ class GroupHelper {
 	}
 
 	/**
+	 * Returns an array of groups that can be displayed in the user interface
+	 * @param array|null $config
+	 * @return array
+	 */
+	public function getGroupsForDisplay( $config = [] ): array {
+		$config['filter'] = array_merge( [
+			'core-minimal', 'implicit', 'custom', 'extension-minimal'
+		], $config['filter'] ?? [] );
+		$config['blacklist'] = $config['blacklist'] ?? [];
+		$config['blacklist'][] = 'autoconfirmed';
+
+		return $this->getAvailableGroups( $config );
+	}
+
+	/**
 	 *
 	 * @param array $aConf
 	 * @return array
