@@ -20,6 +20,10 @@ class GroupHelper {
 	private $standardGroupsFilter = [ 'core-minimal', 'extension-minimal', 'custom' ];
 	/** @var MediaWikiServices */
 	protected $services;
+
+	/** @var UserFactory */
+	protected $userFactory;
+
 	/** @var array */
 	protected $aGroups = [];
 
@@ -31,11 +35,12 @@ class GroupHelper {
 	 * @param UserFactory $userFactory
 	 */
 	public function __construct( UserGroupManager $userGroupManager,
-			$additionalGroups, $groupTypes, IDatabase $dbr, private readonly UserFactory $userFactory ) {
+			$additionalGroups, $groupTypes, IDatabase $dbr, UserFactory $userFactory ) {
 		$this->userGroupManager = $userGroupManager;
 		$this->additionalGroups = $additionalGroups;
 		$this->groupTypes = $groupTypes;
 		$this->dbr = $dbr;
+		$this->userFactory = $userFactory;
 	}
 
 	/**
