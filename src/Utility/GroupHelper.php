@@ -141,7 +141,8 @@ class GroupHelper {
 
 	/**
 	 * @param string $group
-	 *
+	 * @param $onlyActive Do not count blocked/deactivated users
+	 * @param $excludeSystem Do not count build in system users
 	 * @return int
 	 */
 	public function countUsersInGroup( $group, bool $onlyActive = false, bool $excludeSystem = false ): int {
