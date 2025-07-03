@@ -38,7 +38,7 @@ class GroupHelperTest extends TestCase {
 	];
 
 	/**
-	 * @covers GroupHelper::getAvailableGroups
+	 * @covers \MWStake\MediaWiki\Component\Utils\Utility\GroupHelper::getAvailableGroups
 	 * @dataProvider provideGetAvailableGroupsTestData
 	 */
 	public function testGetAvailableGroups( $implicitGroups, $allGroups, $additionalGroups,
