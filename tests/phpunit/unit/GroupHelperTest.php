@@ -1,11 +1,14 @@
 <?php
 
-namespace MWStake\MediaWiki\Component\Utils\Tests;
+namespace MWStake\MediaWiki\Component\Utils\Tests\Unit;
 
+use MediaWiki\User\UserFactory;
+use MediaWiki\User\UserGroupManager;
+use MediaWikiUnitTestCase;
 use MWStake\MediaWiki\Component\Utils\Utility\GroupHelper;
-use PHPUnit\Framework\TestCase;
+use Wikimedia\Rdbms\IDatabase;
 
-class GroupHelperTest extends TestCase {
+class GroupHelperTest extends MediaWikiUnitTestCase {
 
 	/** @var string[] */
 	public static $implicitGroups = [ '*', 'user', 'autoconfirmed' ];
@@ -41,15 +44,24 @@ class GroupHelperTest extends TestCase {
 	 * @covers \MWStake\MediaWiki\Component\Utils\Utility\GroupHelper::getAvailableGroups
 	 * @dataProvider provideGetAvailableGroupsTestData
 	 */
-	public function testGetAvailableGroups( $implicitGroups, $allGroups, $additionalGroups,
-						$groupTypes, $filter, $expectedAvailableGroups ) {
-		$groupManager = $this->createMock( \MediaWiki\User\UserGroupManager::class );
+	public function testGetAvailableGroups(
+		$implicitGroups, $allGroups, $additionalGroups,
+		$groupTypes, $filter, $expectedAvailableGroups
+	) {
+		$groupManager = $this->createMock( UserGroupManager::class );
 		$groupManager->method( 'listAllImplicitGroups' )->willReturn( $implicitGroups );
 		$groupManager->method( 'listAllGroups' )->willReturn( $allGroups );
 
-		$dbr = $this->createMock( \Wikimedia\Rdbms\IDatabase::class );
+		$dbr = $this->createMock( IDatabase::class );
+		$userFactory = $this->createMock( UserFactory::class );
 
-		$groupHelper = new GroupHelper( $groupManager, $additionalGroups, $groupTypes, $dbr );
+		$groupHelper = new GroupHelper(
+			$groupManager,
+			$additionalGroups,
+			$groupTypes,
+			$dbr,
+			$userFactory
+		);
 		$availableGroups = $groupHelper->getAvailableGroups( $filter );
 
 		$this->assertEquals( $expectedAvailableGroups, $availableGroups );
