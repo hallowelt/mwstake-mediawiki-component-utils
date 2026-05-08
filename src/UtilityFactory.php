@@ -66,4 +66,17 @@ class UtilityFactory {
 		}
 		return $this->instances['messageHelper'];
 	}
+
+	/**
+	 * @return DisplayTitleHelper
+	 */
+	public function getDisplayTitleHelper(): DisplayTitleHelper {
+		if ( !isset( $this->instances['displayTitleHelper'] ) ) {
+			$this->instances['displayTitleHelper'] = new DisplayTitleHelper(
+				$this->services->getObjectCacheFactory(),
+				$this->services->getDBLoadBalancer()
+			);
+		}
+		return $this->instances['displayTitleHelper'];
+	}
 }

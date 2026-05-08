@@ -4,7 +4,7 @@ if ( defined( 'MWSTAKE_MEDIAWIKI_COMPONENT_UTILS_VERSION' ) ) {
 	return;
 }
 
-define( 'MWSTAKE_MEDIAWIKI_COMPONENT_UTILS_VERSION', '3.1.0' );
+define( 'MWSTAKE_MEDIAWIKI_COMPONENT_UTILS_VERSION', '3.1.1' );
 
 MWStake\MediaWiki\ComponentLoader\Bootstrapper::getInstance()
 ->register( 'utils', static function () {
