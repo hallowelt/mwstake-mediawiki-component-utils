@@ -117,6 +117,8 @@ class ReadableNamespaces {
 		$groups = $this->userGroupCache[$user->getId()] ?? null;
 		if ( $groups === null ) {
 			$groups = $this->userGroupManager->getUserGroups( $user );
+			$groups[] = '*';
+			$groups[] = 'user';
 			$this->userGroupCache[$user->getId()] = $groups;
 		}
 		return $groups;
