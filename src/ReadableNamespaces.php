@@ -116,9 +116,10 @@ class ReadableNamespaces {
 	private function getUserGroups( UserIdentity $user ): array {
 		$groups = $this->userGroupCache[$user->getId()] ?? null;
 		if ( $groups === null ) {
-			$groups = $this->userGroupManager->getUserGroups( $user );
-			$groups[] = '*';
-			$groups[] = 'user';
+			$groups = array_merge(
+				$this->userGroupManager->getUserGroups( $user ),
+				$this->userGroupManager->getUserImplicitGroups( $user )
+			);
 			$this->userGroupCache[$user->getId()] = $groups;
 		}
 		return $groups;
