@@ -28,6 +28,11 @@ class DisplayTitleHelper {
 	 * @return string|null
 	 */
 	public function getDisplayTitle( PageIdentity $linkTarget ): ?string {
+		// for a "Title instance does not represent a proper page,
+		// but merely a link target", e.g a special page, getId() won't work
+		if ( !$linkTarget->canExist() ) {
+			return $linkTarget->getText();
+		}
 		$this->assertData();
 		return $this->displayTitles[$linkTarget->getId()] ?? null;
 	}
