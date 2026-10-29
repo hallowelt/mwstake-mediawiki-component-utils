@@ -2,6 +2,7 @@
 
 namespace MWStake\MediaWiki\Component\Utils;
 
+use MediaWiki\ObjectCache\ObjectCacheFactory;
 use MediaWiki\Page\PageIdentity;
 use Wikimedia\LightweightObjectStore\ExpirationAwareness;
 use Wikimedia\Rdbms\ILoadBalancer;
@@ -14,11 +15,11 @@ class DisplayTitleHelper {
 	private ?array $displayTitles = null;
 
 	/**
-	 * @param \ObjectCacheFactory $cacheFactory
+	 * @param ObjectCacheFactory $cacheFactory
 	 * @param ILoadBalancer $lb
 	 */
 	public function __construct(
-		private readonly \ObjectCacheFactory $cacheFactory,
+		private readonly ObjectCacheFactory $cacheFactory,
 		private readonly ILoadBalancer $lb
 	) {
 	}
